@@ -1,0 +1,6 @@
+Work Done During Time
+- Discussing about what to use for project
+- Learning and playing around locally with the react
+- Implementing search card functionality in the deck view screen
+
+
