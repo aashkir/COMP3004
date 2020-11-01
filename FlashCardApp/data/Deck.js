@@ -10,7 +10,7 @@ class Deck {
     }
 
     addCard(card) {
-        this.cards = this.cards.push(...card)
+        this.cards.push(...card)
     }
 
     updateReview() {
