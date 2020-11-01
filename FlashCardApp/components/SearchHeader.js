@@ -21,10 +21,6 @@ export default class SearchHeader extends Component {
                         <Icon name="ios-search" />
                         <Input placeholder="What are you looking for?" />
                     </Item>
-                    <Button transparent>
-                        <Text>What are you looking for?</Text>
-                    </Button>
-                    
                 </Header>
             </Container>
         );
