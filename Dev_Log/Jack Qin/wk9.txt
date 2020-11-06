@@ -1,0 +1,6 @@
+wk9
+Work Done During Time
+- Worked to write script fo D3 presentation 
+- Worked on prototype demo with group
+- Research on installing firebase
+- Research on react redux
