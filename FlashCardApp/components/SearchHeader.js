@@ -14,15 +14,13 @@ export default class SearchHeader extends Component {
 
     render() {
         return (
-            <Container>
-                <Header searchBar rounded>
-                    {this._canGoBack()}
-                    <Item>
-                        <Icon name="ios-search" />
-                        <Input placeholder="What are you looking for?" />
-                    </Item>
-                </Header>
-            </Container>
+            <Header searchBar rounded>
+                {this._canGoBack()}
+                <Item>
+                    <Icon name="ios-search" />
+                    <Input placeholder="What are you looking for?" />
+                </Item>
+            </Header>
         );
     }
 }

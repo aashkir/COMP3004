@@ -19,12 +19,14 @@ export default class HomeScreen extends Component {
 
     _createRecentDeckView() {
         // create recent decks
-        if (this.state.decks.length > 5) {
+        if (this.state.decks.length > 4) {
+            // not implemented, just return null for now
+            /*
             // sorting will be delegated at a higher level
             let mostRecentDecks = this.state.decks.slice(0, 4);
             return (
                 <RecentDecks decks={mostRecentDecks} />
-            )
+            )*/
         }
         return null
     }

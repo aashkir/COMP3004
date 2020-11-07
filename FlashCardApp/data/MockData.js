@@ -29,4 +29,8 @@ let MockFrench3Deck = MockDecks[3]
 
 let MockCards = [...MockFrenchCards, ...MockComp3004Cards]
 
-export { MockCards, MockDecks, MockFrenchDeck, MockComp3004Deck, MockFrench2Deck, MockFrench3Deck }
+function saveDeck(title, subtitle) {
+    MockDecks.push(new DeckModel(title, subtitle));
+}
+
+export { MockCards, MockDecks, MockFrenchDeck, MockComp3004Deck, MockFrench2Deck, MockFrench3Deck, saveDeck }
