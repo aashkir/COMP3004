@@ -22,15 +22,20 @@ export default class NewDeckScreen extends Component {
     }
 
     _createDeck = () => {
+        if (this.state.title === "" || this.state.subtitle === "") {
+            alert("Please fill in the title and subtitle fields.")
+            return
+        }
         //saveDeck(this.state.title, this.state.subtitle)
         console.warn("Not Truly Implemented, using mock data.")
+        this.props.navigation.navigate("Home")
     }
 
     render() {
         return (
             <Container>
                 <TitleHeader title={NewDeckScreen.displayName} goBack={this.props.navigation.goBack}/>
-                <Content>
+                <Content padder>
                     <Form>
                         <Item stackedLabel>
                         <Label>Deck Title</Label>

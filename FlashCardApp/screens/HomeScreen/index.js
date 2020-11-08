@@ -19,7 +19,7 @@ export default class HomeScreen extends Component {
 
     _createRecentDeckView() {
         // create recent decks
-        if (this.state.decks.length > 4) {
+        if (this.state.decks.length > 3) {
             // not implemented, just return null for now
             /*
             // sorting will be delegated at a higher level
@@ -42,7 +42,6 @@ export default class HomeScreen extends Component {
     }
 
     _addDeck = () => {
-        console.warn("Deck Adding Not implemented.")
         this.props.navigation.navigate("New Deck")
     }
 
@@ -51,7 +50,6 @@ export default class HomeScreen extends Component {
     }
 
     _viewDeck = () => {
-        console.warn("Viewing deck is not implemented.")
         this.props.navigation.navigate("View Deck")
     }
 
