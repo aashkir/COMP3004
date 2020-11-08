@@ -29,7 +29,7 @@ export default class DeckScreen extends Component {
                                         <Text style={{fontWeight: "bold" }}>{MockCards[element].front}</Text>   
                                     </View>
 
-                                    <View style={{borderStyle: 'dotted', borderLeftWidth:1, marginRight: 23, color:"gray"}}/>
+                                    <View style={{borderStyle: 'dotted', borderLeftWidth:1, marginRight: 23, color:"black"}}/>
 
                                     <View style={{flex:1}}>
                                         <Text>{MockCards[element].back}</Text>
