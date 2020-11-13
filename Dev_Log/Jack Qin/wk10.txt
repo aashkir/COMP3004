@@ -1,0 +1,2 @@
+Work Done During Time
+- Work on card view screen UI and implementation
