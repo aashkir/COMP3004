@@ -6,11 +6,13 @@ These are components that can be reused throughout the project. If you feel like
 
 ## Screens
 
-The screen components always live in the **Screen** folder. Inside a Screen component you will find
+The screen components always live in the **UI/Screens** folder. Inside a Screen component you will find
 
 - `index.js` where the screen component itself lives
 - various other components related to the screen component
 
-## Library components
+## Installed Library components
 
-We use components from nativebase.io. check out their documentation.
+nativebase.io. check out their [documentation](https://docs.nativebase.io/Components.html#card-image-headref).
+
+we (read: SOMEONE) also used react-native-paper

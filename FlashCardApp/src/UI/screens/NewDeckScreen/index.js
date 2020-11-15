@@ -1,16 +1,19 @@
 import React, { Component } from "react"
 import { Container, Content, Form, Label, Input, Button, Item, Text } from "native-base"
 
-import TitleHeader from "../../components/TitleHeader"
+import TitleHeader from "./../../components/TitleHeader"
 
-import { MockDecks, saveDeck } from "./../../data/MockData"
+import { connect } from 'react-redux'
+import { addDeckAction } from "./../../../actions/creators"
+import MainFooter from "../../components/MainFooter"
 
-export default class NewDeckScreen extends Component {
+
+class NewDeckScreen extends Component {
     static displayName = "New Deck"
-
+    static initialState = { title: "", subtitle: "" };
     constructor(props) {
         super(props)
-        this.state = { title : "", subtitle : ""}
+        this.state = this.initialState
     }
 
     _handleTitle = text => {
@@ -26,8 +29,8 @@ export default class NewDeckScreen extends Component {
             alert("Please fill in the title and subtitle fields.")
             return
         }
-        //saveDeck(this.state.title, this.state.subtitle)
-        console.warn("Not Truly Implemented, using mock data.")
+
+        this.props.createDeck(this.state.title, this.state.subtitle)
         this.props.navigation.navigate("Home")
     }
 
@@ -41,16 +44,14 @@ export default class NewDeckScreen extends Component {
                         <Label>Deck Title</Label>
                         <Input 
                             clearOnSubmit={false}
-                            onEntry={this._handleTitle}
-                            onChange={this._handleTitle}
+                            onChangeText={this._handleTitle}
                         />
                         </Item>
                         <Item stackedLabel last>
                         <Label>Deck Subtitle</Label>
                         <Input 
                             clearOnSubmit={false}
-                            onEntry={this._handleSubtitle}
-                            onChange={this._handleSubtitle}
+                            onChangeText={this._handleSubtitle}
                         />
                         </Item>
                     </Form>
@@ -59,7 +60,24 @@ export default class NewDeckScreen extends Component {
                         <Text>Save Deck</Text>
                     </Button>
                 </Content>
+                <MainFooter navigation={this.props.navigation}/>
             </Container>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        decks : state.decks
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createDeck: (title, subtitle) => {
+            dispatch(addDeckAction(title, subtitle))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewDeckScreen);

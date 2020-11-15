@@ -1,10 +1,11 @@
 import React, { Component } from "react"
-import { StyleSheet, View } from "react-native"
-import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Icon, Button, Card, CardItem } from 'native-base'
+import { StyleSheet } from "react-native"
+import { Text, Left, Body, Right, Icon, Card, CardItem } from 'native-base'
 
-import DeckModel from "./../../data/Deck"
+//import DeckModel from "./../../data/Deck"
 import Strong from "./../../components/Strong"
 import colors from "./../../styles/colors"
+import ProgressInfo from "./ProgressInfo"
 
 class Deck extends Component {
     static displayName = "Deck"
@@ -34,6 +35,9 @@ class Deck extends Component {
                             {this.props.deck.subtitle}
                         </Text>
                     </Left>
+                    <Right>
+                        <ProgressInfo/>
+                    </Right>
                 </CardItem>
           </Card>
         )
