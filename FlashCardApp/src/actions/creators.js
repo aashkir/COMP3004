@@ -2,6 +2,7 @@ import {
     ADD_DECK,
     ADD_CARD,
     SEARCH,
+    LOAD_DATA,
 } from './types'
 
 import Card from './../utilities/data/Card'
@@ -17,4 +18,8 @@ export const addCardAction = (front, back, deckID) => {
 
 export const searchAction = (term) => {
     return { type : SEARCH, payload: term }
+}
+
+export const loadDataAction = (data) => {
+    return { type : LOAD_DATA, payload: data }
 }

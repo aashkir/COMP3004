@@ -17,7 +17,6 @@ class ProgressInfo extends Component {
     }
     
       onPressLTM = () => {
-        console.log("Test")
         let ltmCards = 10
         Toast.show({
             text: `you have ${ltmCards} cards in long term memory!`,

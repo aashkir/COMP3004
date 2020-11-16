@@ -15,14 +15,23 @@ import { createStore } from 'redux'
 import { reducer } from './reducers/index'
 import { Provider } from 'react-redux'
 
+import { readDecks } from "./utilities/storage/decks"
+import { loadDataAction } from "./actions/creators"
+
 const store = createStore(reducer)
+
+// On application start, read saved state from disk.
+readDecks().then(decks => {
+  console.log("loading data")
+  store.dispatch(loadDataAction(decks));
+});
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isReady: false,
-    };
+    }
   }
 
   async componentDidMount() {
@@ -30,7 +39,7 @@ export default class App extends React.Component {
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
-    });
+    })
     this.setState({ isReady: true });
   }
 

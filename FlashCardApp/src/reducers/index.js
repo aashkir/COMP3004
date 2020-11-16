@@ -1,12 +1,10 @@
 /* PUT ALL YOUR INITIAL STATE VALUES HERE */
 
-import { MockDecks, MockCards } from "./../utilities/data/MockData"
-
 import deckReducer from "./DeckReducer"
 import searchReducer from "./SearchReducer"
-// soon initial state will be from a DB
+
 const INITIAL_STATE = {
-    decks: MockDecks,
+    decks: [],
     search_term: "",
 }
 
