@@ -15,4 +15,4 @@ The screen components always live in the **UI/Screens** folder. Inside a Screen 
 
 nativebase.io. check out their [documentation](https://docs.nativebase.io/Components.html#card-image-headref).
 
-we (read: SOMEONE) also used react-native-paper
+we also used react-native-paper

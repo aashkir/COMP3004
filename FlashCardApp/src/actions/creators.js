@@ -3,6 +3,9 @@ import {
     ADD_CARD,
     SEARCH,
     LOAD_DATA,
+    CREATE_STUDY,
+    NEXT_CARD,
+    END_STUDY,
 } from './types'
 
 import Card from './../utilities/data/Card'
@@ -22,4 +25,16 @@ export const searchAction = (term) => {
 
 export const loadDataAction = (data) => {
     return { type : LOAD_DATA, payload: data }
+}
+
+export const createStudyAction = (deckID) => {
+    return { type : CREATE_STUDY, payload: deckID }
+}
+
+export const nextReviewAction = () => {
+    return { type: NEXT_CARD, payload: {} };
+}
+
+export const endStudyAction = () => {
+    return { type: END_STUDY, payload: {} };
 }
