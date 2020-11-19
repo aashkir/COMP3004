@@ -1,15 +1,19 @@
 import React, { Component } from "react"
-import { Container, Header, Content , Text, Divider, View, H1} from "native-base"
+import { Button, Container, Header, Content , Text, Divider, View, H1} from "native-base"
 
 import SearchHeader from './../../components/SearchHeader'
 import AddButton from "./../../components/AddButton"
 //import StudyButton from "./../../components/StudyButton"
 
+// Ahmed's card component
 import CardComponent from './CardComponent'
+// Fern's card component
+import CardView from './CardScreen'
 
 import { connect } from "react-redux"
 import { searchAction } from "./../../../actions/creators"
 import MainFooter from "../../components/MainFooter"
+import StudyButton from "../../components/StudyButton"
 
 class DeckScreen extends Component {
     static displayName = "View Deck"
@@ -18,13 +22,12 @@ class DeckScreen extends Component {
         this.props.navigation.navigate("New Card", {'deckID' : this.props.route.params.deckID})
     }
 
-    _viewCard() {
+    _viewCard = () => {
         console.warn("View card not implemented.")
     }
 
-    _study() {
-        // generate a study
-        console.warn("Study not implemented")
+    _study = () => {
+        this.props.navigation.navigate("Study", {'deckID' : this.props.route.params.deckID})
     }
 
     _onSearch = (title) => {
@@ -36,7 +39,7 @@ class DeckScreen extends Component {
             return null
         }
         return this.props.cardResults.map(card => {
-            return <CardComponent card={card} key={card.cardID} onPress={this._viewCard} />
+            return <CardView card={card} key={card.cardID} onPress={this._viewCard} />
         })
     }
 
@@ -55,6 +58,8 @@ class DeckScreen extends Component {
                     {this._createCardViews()}
                 </Content>
                 <AddButton onPress={this._addCard} />
+
+                <StudyButton onPress={this._study} />
                 <MainFooter navigation={this.props.navigation}/>
             </Container>
         )
