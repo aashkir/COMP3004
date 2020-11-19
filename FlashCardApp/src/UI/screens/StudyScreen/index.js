@@ -7,7 +7,9 @@ import MainFooter from "../../components/MainFooter"
 import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import colors from './../../styles/colors'
 
-export default class StatsScreen extends Component {
+import { connect } from 'react-redux'
+import { nextCardAction } from "./../../../actions/creators"
+class StudyScreen extends Component {
     static displayName = "Study"
 
     // we can use state here because it only is for the user to see answers (doesn't affect cards)
@@ -15,7 +17,7 @@ export default class StatsScreen extends Component {
 
     constructor(props) {
         super(props)
-        this.state = StatsScreen.initialState
+        this.state = StudyScreen.initialState
     }
 
     toggleAnswer = () => {
@@ -32,7 +34,7 @@ export default class StatsScreen extends Component {
 
                     <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.quesText}>
-                            QUESTIONTEST
+                            {this.props.currentCard.front}
                         </Text>
                     </View>
                 </View>
@@ -52,7 +54,7 @@ export default class StatsScreen extends Component {
 
                     <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.quesText}>
-                            QUESTIONANS
+                            {this.props.currentCard.back}
                         </Text>
                     </View>
                 </View>
@@ -77,6 +79,7 @@ export default class StatsScreen extends Component {
     //--------------- Again , Good, Easy buttons ----------- //
 
     easyPressed = () => {
+        this.props.nextCard(1)
         /*
         var updateIndex = cardIndex + 1
         console.log(updateIndex)
@@ -87,6 +90,7 @@ export default class StatsScreen extends Component {
     }
 
     goodPressed = () => {
+        this.props.nextCard(0)
         /*
         var updateIndex = cardIndex + 1
 
@@ -99,6 +103,7 @@ export default class StatsScreen extends Component {
 
     againPressed = () => {
         console.log('pressed... again')
+        this.props.nextCard(-1)
         /*
         var updateIndex = cardIndex - 1
 
@@ -114,7 +119,7 @@ export default class StatsScreen extends Component {
         //------------------ UI design, with quesiton andn buttons -------//
         return (
             <Container>
-                <TitleHeader title={StatsScreen.displayName} goBack={this.props.navigation.goBack} />
+                <TitleHeader title={StudyScreen.displayName} goBack={this.props.navigation.goBack} />
                 <Content style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         {this.state.showAnswer ? this.answer() : this.question()}
@@ -187,3 +192,22 @@ const styles = StyleSheet.create(
             fontWeight: 'bold'
         }
     })
+
+    const mapStateToProps = (state) => {
+        return {
+            //currentDeck : state.decks.find(deck => deck.id === ownProps.route.params.deckID)
+            currentCard : state.currentStudy.studyQueue.peek()
+        }
+    }
+    
+    const mapDispatchToProps = dispatch => {
+        return {
+            nextCard: (response) => {
+                dispatch(nextCardAction(response))
+            }
+
+            
+        }
+    }
+    
+    export default connect(mapStateToProps, mapDispatchToProps)(StudyScreen)

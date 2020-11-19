@@ -11,7 +11,7 @@ import CardComponent from './CardComponent'
 import CardView from './CardScreen'
 
 import { connect } from "react-redux"
-import { searchAction } from "./../../../actions/creators"
+import { searchAction, createStudyAction } from "./../../../actions/creators"
 import MainFooter from "../../components/MainFooter"
 import StudyButton from "../../components/StudyButton"
 
@@ -27,6 +27,7 @@ class DeckScreen extends Component {
     }
 
     _study = () => {
+        this.props.startStudy(this.props.route.params.deckID)
         this.props.navigation.navigate("Study", {'deckID' : this.props.route.params.deckID})
     }
 
@@ -90,7 +91,10 @@ const mapDispatchToProps = dispatch => {
         },
         searchCard: (title) => {
             dispatch(searchAction(title))
-        }
+        },
+        startStudy: (deckID) => {
+            dispatch(createStudyAction(deckID))
+        },
     }
 }
 

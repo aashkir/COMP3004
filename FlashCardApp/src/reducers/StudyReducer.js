@@ -8,8 +8,7 @@ import { endStudyAction } from "../actions/creators"
 
 export const setStudyState = (
         deckID = null, 
-        // queue of cards
-        studyQueue = null, 
+        studyQueue = null
     ) => {
     return { deckID, studyQueue }
 }
@@ -30,7 +29,9 @@ function deckArrayWithReplacedCard(decks, card, index) {
 }*/
 
 function generateStudy(deck) {
+    console.log("generaternio")
     let studyQueue = new Queue()
+    console.log("gen2")
     // filter deck where easiness fector is below a certain number
     let studyCards = deck.cards.filter(card => { 
         return card.EF <= 2.5
@@ -40,12 +41,12 @@ function generateStudy(deck) {
     studyCards.map((studyCard) => {
         return studyQueue.enqueue(studyCard)
     })
-    return setStudyState(deck.deckID, studyQueue)
+    return setStudyState(deck.id, studyQueue)
 }
 
 function getDeck(decks, deckID) {
     return decks.find(deck => {
-        return (deck.deckID === deckID)
+        return (deck.id === deckID)
     })
 }
 
@@ -55,10 +56,14 @@ function modifyEF(card, response) {
     return card
 }
 
+function endStudy(state) {
+    console.log("study ended")
+}
+
 // user gave a response to the flashcard.
 function nextCard(state, response) {
     if (state.studyQueue.isEmpty()) endStudy(state)
-    
+    console.log("Modifying card, response is: ", response)
     let card = modifyEF(state.studyQueue.dequeue(), response)
 
     return setStudyState(
@@ -74,8 +79,8 @@ const reducer = (state = setStudyState(), action, decks) => {
             updatedState = generateStudy(getDeck(decks, action.payload))
             return updatedState
         case NEXT_CARD:
-            updatedState = nextCard(state, response) 
-            saveDecks(decks)
+            updatedState = nextCard(state, action.payload) 
+            //saveDecks(decks)
             return updatedState
     }
     return updatedState

@@ -31,8 +31,8 @@ export const createStudyAction = (deckID) => {
     return { type : CREATE_STUDY, payload: deckID }
 }
 
-export const nextReviewAction = () => {
-    return { type: NEXT_CARD, payload: {} };
+export const nextCardAction = (response) => {
+    return { type: NEXT_CARD, payload: response };
 }
 
 export const endStudyAction = () => {
