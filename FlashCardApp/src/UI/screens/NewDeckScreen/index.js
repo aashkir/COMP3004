@@ -13,7 +13,7 @@ class NewDeckScreen extends Component {
     static initialState = { title: "", subtitle: "" };
     constructor(props) {
         super(props)
-        this.state = this.initialState
+        this.state = NewDeckScreen.initialState
     }
 
     _handleTitle = text => {
