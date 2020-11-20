@@ -1,0 +1,3 @@
+Work Done During Time
+- Further implementing view card screen
+- Work on edit card functionality
