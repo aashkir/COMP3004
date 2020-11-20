@@ -1,0 +1,4 @@
+Work Done During Time
+- Added bulk of bakened componenents for share functinality
+- wait, get request, redux thunk
+- Implemented needed values in redux store, reducers and actions
