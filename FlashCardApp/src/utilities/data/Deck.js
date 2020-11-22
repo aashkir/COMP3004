@@ -8,6 +8,7 @@ class Deck {
         this.lastReviewed = Date.now()
         this.lastModified = Date.now() // transaction-id
         this.id = md5(title + this.lastReviewed)
+        this.synced = false
     }
     // For loading a deck from storage
     setFromObject(ob) {
