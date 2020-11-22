@@ -10,6 +10,7 @@ import DeckScreen from './../UI/screens/DeckScreen'
 import NewCardScreen from './../UI/screens/NewCardScreen'
 import StatsScreen from './../UI/screens/StatsScreen'
 import StudyScreen from './../UI/screens/StudyScreen'
+import ShareScreen from './../UI/screens/ShareScreen'
 // header navigation
 const Stack = createStackNavigator()
 
@@ -22,6 +23,7 @@ function Navigator() {
                 <Stack.Screen name="View Deck" component={DeckScreen} />
                 <Stack.Screen name="New Card" component={NewCardScreen} />
                 <Stack.Screen name="Study" component={StudyScreen} />
+                <Stack.Screen name="Share" component={ShareScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
