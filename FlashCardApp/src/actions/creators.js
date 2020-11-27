@@ -7,6 +7,7 @@ import {
     CREATE_STUDY,
     NEXT_CARD,
     END_STUDY,
+    UPDATE_DECK
 } from './types'
 
 import Card from './../utilities/data/Card'
@@ -42,4 +43,8 @@ export const nextCardAction = (response) => {
 
 export const endStudyAction = () => {
     return { type: END_STUDY, payload: {} };
+}
+
+export const updateDeckWithDeckAction = (deck) => {
+    return { type: UPDATE_DECK, payload: deck };
 }

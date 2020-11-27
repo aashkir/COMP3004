@@ -11,14 +11,15 @@ import Navigator from './utilities/Navigator'
 
 const Stack = createStackNavigator()
 
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { reducer } from './reducers/index'
 import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
 import { readDecks } from "./utilities/storage/decks"
 import { loadDataAction } from "./actions/creators"
 
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk))
 
 // On application start, read saved state from disk.
 readDecks().then(decks => {

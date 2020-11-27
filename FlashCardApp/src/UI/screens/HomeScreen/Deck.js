@@ -29,7 +29,7 @@ class Deck extends Component {
                     </Right>
                 </CardItem>
 
-                <CardItem style={styles.cardBody}>
+                <CardItem style={styles.cardBody} button onPress={this.props.onPress}>
                     <Left>
                         <Text>
                             {this.props.deck.subtitle}

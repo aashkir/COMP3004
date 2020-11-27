@@ -9,9 +9,11 @@ import RecentDeck from './RecentDeck'
 import MainFooter from "../../components/MainFooter"
 
 import { connect } from "react-redux"
-import { searchAction } from "./../../../actions/creators"
+import { searchAction} from "./../../../actions/creators"
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import colors from "../../styles/colors";
+
+import { uploadFireBase, downloadFireBase } from "./../../../reducers/DeckReducer"
 
 class HomeScreen extends Component {
     static displayName = "Home"
@@ -31,7 +33,8 @@ class HomeScreen extends Component {
                     <Row>
                         <Col>
                             <Row>
-                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._viewDeck(mostRecentDecks[0].id)}} />
+                                {/* Change for ShareDeckTesting */}
+                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._shareDeck(mostRecentDecks[0])}} />
                             </Row>
                             <Row>
                                 <RecentDeck deck={mostRecentDecks[2]} onPress={() => {this._viewDeck(mostRecentDecks[2].id)}}/>
@@ -72,8 +75,15 @@ class HomeScreen extends Component {
         this.props.searchDeck(title)
     }
 
+    _shareDeck = (deck) => {
+        this.props.uploadDeck(uploadFireBase(deck))
+    }
+
+    _getDeck = (deckId) => {
+        this.props.downloadDeckDeck(downloadFireBase(deckId))
+    }
+
     _viewDeck = (id) => {
-        //console.log(id)
         this.props.navigation.navigate("View Deck", {deckID : id})
     }
 
@@ -99,7 +109,7 @@ const getDeckResults = (decks, term) => {
     if (term === "" || term === undefined) {
         return decks
     }
-    return decks.filter(deck => deck.title.includes(term))
+    return decks.filter(deck => deck.title.toLowerCase().includes(term.toLowerCase()))
 }
 
 const getRecentDecks = (decks) => {
@@ -117,7 +127,14 @@ const mapDispatchToProps = dispatch => {
     return {
         searchDeck: (title) => {
             dispatch(searchAction(title))
+        },
+        uploadDeck: (uploadFireBase_Function) => {
+            dispatch(uploadFireBase_Function)
+        },
+        downloadDeck: (downloadFireBase_Function) => {
+            dispatch(downloadFireBase_Function)
         }
+
     }
 }
 

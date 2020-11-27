@@ -8,8 +8,7 @@ export default class MainFooter extends Component {
   }
 
   _goToShare = () => {
-    console.warn("Not implemented")
-    //this.props.navigation.navigate('Share')
+    this.props.navigation.navigate('Share')
   }
 
   _goToStats = () => {
