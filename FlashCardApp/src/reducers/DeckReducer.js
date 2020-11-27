@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_CARD, LOAD_DATA } from '../actions/types'
+import { ADD_DECK, ADD_CARD, REPLACE_CARD, LOAD_DATA } from '../actions/types'
 import Deck from '../utilities/data/Deck'
 import { writeDecks } from './../utilities/storage/decks'
 
@@ -10,6 +10,23 @@ function deckArrayWithNewCard(decks, card) {
         return deck
     })
 }
+
+// used for modifying cards (note: ID's have to be identical)
+function deckArrayWithReplacedCard(decks, replacerCard) {
+    return decks.map(deck => {
+        if (deck.id === replacerCard.deckID) {
+            deck.cards = deck.cards.map(card => {
+                if (card.cardID === replacerCard.cardID) {
+                    return replacerCard
+                }
+                return card
+            })
+        }
+        return deck
+    })
+}
+
+
 
 function saveDecks(state) {
     writeDecks(state)
@@ -30,7 +47,10 @@ const reducer = (state = [], action) => {
             updatedState = deckArrayWithNewCard(state, action.payload)
             saveDecks(updatedState)
             return updatedState
-
+        case REPLACE_CARD:
+            updatedState = deckArrayWithReplacedCard(state, action.payload)
+            saveDecks(updatedState)
+            return updatedState
     }
     return updatedState
 }

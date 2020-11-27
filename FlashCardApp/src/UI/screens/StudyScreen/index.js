@@ -8,7 +8,7 @@ import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'rea
 import colors from './../../styles/colors'
 
 import { connect } from 'react-redux'
-import { nextCardAction } from "./../../../actions/creators"
+import { nextCardAction, replaceCardInDeckAction, endStudyAction } from "./../../../actions/creators"
 class StudyScreen extends Component {
     static displayName = "Study"
 
@@ -79,44 +79,34 @@ class StudyScreen extends Component {
     //--------------- Again , Good, Easy buttons ----------- //
 
     easyPressed = () => {
-        this.props.nextCard(1)
-        /*
-        var updateIndex = cardIndex + 1
-        console.log(updateIndex)
-        if (updateIndex < cards.length) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-        }*/
+        this.props.nextCard(5)
+        this.props.modifyCard(this.props.currentCard, 5)
     }
 
     goodPressed = () => {
-        this.props.nextCard(0)
-        /*
-        var updateIndex = cardIndex + 1
-
-        if (updateIndex < cards.length) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-
-        }*/
+        this.props.nextCard(3)
+        this.props.modifyCard(this.props.currentCard, 3)
     }
 
     againPressed = () => {
-        console.log('pressed... again')
-        this.props.nextCard(-1)
-        /*
-        var updateIndex = cardIndex - 1
-
-        if (updateIndex >= 0) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-
-        }*/
+        this.props.nextCard(0)
+        this.props.modifyCard(this.props.currentCard, 0)
     }
 
 
     render() {
         //------------------ UI design, with quesiton andn buttons -------//
+        if (!this.props.currentCard) {
+            return (
+                <Container>
+                <TitleHeader title={StudyScreen.displayName} goBack={this.props.navigation.goBack} />
+                <Content style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+                    <Text>Donezo.</Text>
+                </Content>
+                <MainFooter navigation={this.props.navigation} />
+            </Container>
+            )
+        }
         return (
             <Container>
                 <TitleHeader title={StudyScreen.displayName} goBack={this.props.navigation.goBack} />
@@ -193,21 +183,27 @@ const styles = StyleSheet.create(
         }
     })
 
-    const mapStateToProps = (state) => {
-        return {
-            //currentDeck : state.decks.find(deck => deck.id === ownProps.route.params.deckID)
-            currentCard : state.currentStudy.studyQueue.peek()
-        }
+const mapStateToProps = (state) => {
+    return {
+        //currentDeck : state.decks.find(deck => deck.id === ownProps.route.params.deckID)
+        currentCard : state.currentStudy.studyQueue.peek() // studyqueue is just a copy, not actual cards
     }
-    
-    const mapDispatchToProps = dispatch => {
-        return {
-            nextCard: (response) => {
-                dispatch(nextCardAction(response))
-            }
+}
 
-            
+const mapDispatchToProps = dispatch => {
+    return {
+        nextCard: (response) => {
+            dispatch(nextCardAction(response))
+        },
+
+        modifyCard: (card, response) => {
+            dispatch(replaceCardInDeckAction(card))
+        },
+
+        endStudy: (response) => {
+            dispatch(endStudyAction(response))
         }
     }
-    
-    export default connect(mapStateToProps, mapDispatchToProps)(StudyScreen)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudyScreen)

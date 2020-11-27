@@ -2,73 +2,59 @@
 // currently implemented as using the whole deck.
 
 import { CREATE_STUDY, NEXT_CARD, END_STUDY } from "./../actions/types"
-import { writeDecks } from './../utilities/storage/decks'
 import Queue from "./../utilities/ds/Queue"
-import { endStudyAction } from "../actions/creators"
 
 export const setStudyState = (
         deckID = null, 
-        studyQueue = null
+        studyQueue = null,
+        lastStudied = null,
     ) => {
-    return { deckID, studyQueue }
+    return { deckID, studyQueue, lastStudied }
 }
-
-function saveDecks(decks) {
-    writeDecks(decks)
-    return decks
-}
-
-/*
-function deckArrayWithReplacedCard(decks, card, index) {
-    return decks.map(deck => {
-        if (deck.id === card.deckID) {
-            deck.cards[index] = card
-        }
-        return deck
-    })
-}*/
 
 function generateStudy(deck) {
     console.log("generaternio")
+    let interval = deck.getInterval()
     let studyQueue = new Queue()
-    console.log("gen2")
-    // filter deck where easiness fector is below a certain number
-    let studyCards = deck.cards.filter(card => { 
-        return card.EF <= 2.5
+
+    // filter deck with only cards that are elegable for a study.
+    let studyCards = deck.cards.filter(card => {
+        return ((card.EF < 4) && (card.getInterval() <= interval))
       })
     
     // put the study cards into the queue for easier operations
     studyCards.map((studyCard) => {
         return studyQueue.enqueue(studyCard)
     })
-    return setStudyState(deck.id, studyQueue)
+    return setStudyState(deck.id, studyQueue, null)
 }
 
+//interval(cardsabove(getdeck
 function getDeck(decks, deckID) {
     return decks.find(deck => {
         return (deck.id === deckID)
     })
 }
 
-function modifyEF(card, response) {
-    // modify the easy factor according to the response given (difficult, good, easy)
-    console.log(response)
-    return card
-}
-
 function endStudy(state) {
-    console.log("study ended")
+    return setStudyState(
+        state.deckID,
+        null,
+        null,
+    )
 }
 
 // user gave a response to the flashcard.
 function nextCard(state, response) {
-    if (state.studyQueue.isEmpty()) endStudy(state)
-    console.log("Modifying card, response is: ", response)
-    let card = modifyEF(state.studyQueue.dequeue(), response)
-
+    if (state.studyQueue.isEmpty()) return endStudy(state)
+    console.log("old EF:", state.studyQueue.peek().EF)
+    let lastStudied = state.studyQueue.dequeue()
+    lastStudied.updateEF(response)
+    console.log("new EF:", lastStudied.EF)
     return setStudyState(
         state.deckID,
         state.studyQueue,
+        lastStudied,
     )
 }
 
@@ -81,6 +67,8 @@ const reducer = (state = setStudyState(), action, decks) => {
         case NEXT_CARD:
             updatedState = nextCard(state, action.payload) 
             //saveDecks(decks)
+            return updatedState
+        case END_STUDY:
             return updatedState
     }
     return updatedState

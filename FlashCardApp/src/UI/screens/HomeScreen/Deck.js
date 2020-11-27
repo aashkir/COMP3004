@@ -36,7 +36,7 @@ class Deck extends Component {
                         </Text>
                     </Left>
                     <Right>
-                        <ProgressInfo/>
+                        <ProgressInfo due={this.props.deck.getDueCards()} memorized={this.props.deck.getMemorizedCards()} count={this.props.count}/>
                     </Right>
                 </CardItem>
           </Card>

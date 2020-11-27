@@ -1,6 +1,7 @@
 import {
     ADD_DECK,
     ADD_CARD,
+    REPLACE_CARD,
     SEARCH,
     LOAD_DATA,
     CREATE_STUDY,
@@ -17,6 +18,10 @@ export const addDeckAction = (title, subtitle) => {
 
 export const addCardAction = (front, back, deckID) => {
     return { type : ADD_CARD, payload: new Card(front, back, deckID) }
+}
+
+export const replaceCardInDeckAction = (card) => {
+    return { type : REPLACE_CARD, payload: card}
 }
 
 export const searchAction = (term) => {

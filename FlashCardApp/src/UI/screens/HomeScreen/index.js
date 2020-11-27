@@ -58,6 +58,7 @@ class HomeScreen extends Component {
         }
 
         return this.props.decks.map(deck => {
+            console.log(deck.getDueCards(), deck.getUnmemorizedCards(), deck.getMemorizedCards())
             return <Deck deck={deck} count={deck.cards.length} key={deck.id} onPress={() => {this._viewDeck(deck.id)}} />
         })
     }

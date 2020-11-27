@@ -34,7 +34,7 @@ class RecentDeck extends Component {
                 </CardItem>
                 <CardItem style={styles.status}>
                     <Left>
-                        <ProgressInfo></ProgressInfo>
+                        <ProgressInfo due={this.props.deck.getDueCards()} memorized={this.props.deck.getMemorizedCards()} count={this.props.deck.cards.length}/>
                     </Left>
                 </CardItem>
             </Card>
