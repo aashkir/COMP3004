@@ -24,14 +24,6 @@ function deckArrayWithReplacedCard(decks, replacerCard) {
     })
 }
 
-
-
-function saveDecks(state) {
-    writeDecks(state)
-    return state
-}
-
-
 const reducer = (state = [], action) => {
     let updatedState = state
     switch (action.type) {
@@ -121,6 +113,7 @@ function cleanUpDeckForUpload(deck){
     deck.lastReviewed = 0
     for (let i = 0; i < deck.length; i++){
         deck[i].EF = 2.5     //GOBACK TO SET DEFAULT VALUE
+        deck[i].n = 1 // default the interval as well
     }
 
     return deck

@@ -17,6 +17,11 @@ import StudyButton from "../../components/StudyButton"
 
 class DeckScreen extends Component {
     static displayName = "View Deck"
+    // reset search state when going back.
+    _goBack = () => {
+        this._onSearch("")
+        this.props.navigation.goBack()
+    }
 
     _addCard = () => {
         this.props.navigation.navigate("New Card", {'deckID' : this.props.route.params.deckID})
@@ -53,7 +58,7 @@ class DeckScreen extends Component {
         return (
             
             <Container>
-                <SearchHeader title="Temp" onSearch={this._onSearch} canGoBack={this.props.navigation.canGoBack} goBack={this.props.navigation.goBack} />
+                <SearchHeader title="Temp" onSearch={this._onSearch} canGoBack={this.props.navigation.canGoBack} goBack={this._goBack} />
                 <Content>
                     <H1>{this._findDeck().title}</H1>
                     {this._createCardViews()}

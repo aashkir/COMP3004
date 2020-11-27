@@ -12,8 +12,9 @@ import { connect } from "react-redux"
 import { searchAction} from "./../../../actions/creators"
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import colors from "../../styles/colors";
-
 import { uploadFireBase, downloadFireBase } from "./../../../reducers/DeckReducer"
+
+import DeckList from "./DeckList"
 
 class HomeScreen extends Component {
     static displayName = "Home"
@@ -34,7 +35,7 @@ class HomeScreen extends Component {
                         <Col>
                             <Row>
                                 {/* Change for ShareDeckTesting */}
-                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._shareDeck(mostRecentDecks[0])}} />
+                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._viewDeck(mostRecentDecks[2].id)}} />
                             </Row>
                             <Row>
                                 <RecentDeck deck={mostRecentDecks[2]} onPress={() => {this._viewDeck(mostRecentDecks[2].id)}}/>
@@ -59,11 +60,8 @@ class HomeScreen extends Component {
         if (!this.props.decks) {
             return null
         }
-
-        return this.props.decks.map(deck => {
-            console.log(deck.getDueCards(), deck.getUnmemorizedCards(), deck.getMemorizedCards())
-            return <Deck deck={deck} count={deck.cards.length} key={deck.id} onPress={() => {this._viewDeck(deck.id)}} />
-        })
+        
+       return <DeckList decks={this.props.decks} onPress = {this._viewDeck} onShare = {this._shareDeck} onDelete = {this._deleteDeck} style={{flex: 1}}/>
     }
 
     _addDeck = () => {
@@ -71,12 +69,17 @@ class HomeScreen extends Component {
         this.props.navigation.navigate("New Deck")
     }
 
+    _deleteDeck = (deckID) => {
+        console.warn("Delete deck not implemented.")
+    }
+
     _onSearch = (title) => {
         this.props.searchDeck(title)
     }
 
     _shareDeck = (deck) => {
-        this.props.uploadDeck(uploadFireBase(deck))
+        console.warn("Share deck not implemented.")
+        //this.props.uploadDeck(uploadFireBase(deck))
     }
 
     _getDeck = (deckId) => {
