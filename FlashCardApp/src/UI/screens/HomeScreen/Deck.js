@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { StyleSheet } from "react-native"
-import { Text, Left, Body, Right, Icon, Card, CardItem } from 'native-base'
+import { Text, Left, Body, Right, Icon, Card, CardItem, Row } from 'native-base'
 
 //import DeckModel from "./../../data/Deck"
 import Strong from "./../../components/Strong"
@@ -16,7 +16,7 @@ class Deck extends Component {
 
     render() {
         return (
-            <Card >
+            <Card style={styles.item}>
                 <CardItem header style={[styles.cardHeader, styles.color]} button onPress={this.props.onPress}>
                     <Left>
                         <Strong>{this.props.deck.title}</Strong>
@@ -36,7 +36,7 @@ class Deck extends Component {
                         </Text>
                     </Left>
                     <Right>
-                        <ProgressInfo/>
+                        <ProgressInfo due={this.props.deck.getDueCards()} memorized={this.props.deck.getMemorizedCards()} count={this.props.count}/>
                     </Right>
                 </CardItem>
           </Card>
@@ -45,6 +45,7 @@ class Deck extends Component {
 }
 
 const styles = StyleSheet.create({
+    item: {  },
     color: { backgroundColor: colors.pink },
     cardHeader : { paddingBottom : 5, paddingTop : 5 },
     cardBody : { paddingBottom : 5, paddingTop : 0 },

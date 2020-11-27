@@ -7,7 +7,9 @@ import MainFooter from "../../components/MainFooter"
 import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import colors from './../../styles/colors'
 
-export default class StatsScreen extends Component {
+import { connect } from 'react-redux'
+import { nextCardAction, replaceCardInDeckAction, endStudyAction } from "./../../../actions/creators"
+class StudyScreen extends Component {
     static displayName = "Study"
 
     // we can use state here because it only is for the user to see answers (doesn't affect cards)
@@ -15,7 +17,7 @@ export default class StatsScreen extends Component {
 
     constructor(props) {
         super(props)
-        this.state = StatsScreen.initialState
+        this.state = StudyScreen.initialState
     }
 
     toggleAnswer = () => {
@@ -32,7 +34,7 @@ export default class StatsScreen extends Component {
 
                     <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.quesText}>
-                            QUESTIONTEST
+                            {this.props.currentCard.front}
                         </Text>
                     </View>
                 </View>
@@ -52,7 +54,7 @@ export default class StatsScreen extends Component {
 
                     <View style={{ flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.quesText}>
-                            QUESTIONANS
+                            {this.props.currentCard.back}
                         </Text>
                     </View>
                 </View>
@@ -77,44 +79,37 @@ export default class StatsScreen extends Component {
     //--------------- Again , Good, Easy buttons ----------- //
 
     easyPressed = () => {
-        /*
-        var updateIndex = cardIndex + 1
-        console.log(updateIndex)
-        if (updateIndex < cards.length) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-        }*/
+        this.props.nextCard(5)
+        this.props.modifyCard(this.props.currentCard, 5)
     }
 
     goodPressed = () => {
-        /*
-        var updateIndex = cardIndex + 1
-
-        if (updateIndex < cards.length) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-
-        }*/
+        this.props.nextCard(3)
+        this.props.modifyCard(this.props.currentCard, 3)
     }
 
     againPressed = () => {
-        console.log('pressed... again')
-        /*
-        var updateIndex = cardIndex - 1
-
-        if (updateIndex >= 0) {
-            setCardIndex(updateIndex)
-            setShowAnswer(false)
-
-        }*/
+        this.props.nextCard(0)
+        this.props.modifyCard(this.props.currentCard, 0)
     }
 
 
     render() {
         //------------------ UI design, with quesiton andn buttons -------//
+        if (!this.props.currentCard) {
+            return (
+                <Container>
+                <TitleHeader title={StudyScreen.displayName} goBack={this.props.navigation.goBack} />
+                <Content style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+                    <Text>Donezo.</Text>
+                </Content>
+                <MainFooter navigation={this.props.navigation} />
+            </Container>
+            )
+        }
         return (
             <Container>
-                <TitleHeader title={StatsScreen.displayName} goBack={this.props.navigation.goBack} />
+                <TitleHeader title={StudyScreen.displayName} goBack={this.props.navigation.goBack} />
                 <Content style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         {this.state.showAnswer ? this.answer() : this.question()}
@@ -187,3 +182,28 @@ const styles = StyleSheet.create(
             fontWeight: 'bold'
         }
     })
+
+const mapStateToProps = (state) => {
+    return {
+        //currentDeck : state.decks.find(deck => deck.id === ownProps.route.params.deckID)
+        currentCard : state.currentStudy.studyQueue.peek() // studyqueue is just a copy, not actual cards
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        nextCard: (response) => {
+            dispatch(nextCardAction(response))
+        },
+
+        modifyCard: (card, response) => {
+            dispatch(replaceCardInDeckAction(card))
+        },
+
+        endStudy: (response) => {
+            dispatch(endStudyAction(response))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudyScreen)

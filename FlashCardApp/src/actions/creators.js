@@ -1,6 +1,7 @@
 import {
     ADD_DECK,
     ADD_CARD,
+    REPLACE_CARD,
     SEARCH,
     LOAD_DATA,
     CREATE_STUDY,
@@ -20,6 +21,10 @@ export const addCardAction = (front, back, deckID) => {
     return { type : ADD_CARD, payload: new Card(front, back, deckID) }
 }
 
+export const replaceCardInDeckAction = (card) => {
+    return { type : REPLACE_CARD, payload: card}
+}
+
 export const searchAction = (term) => {
     return { type : SEARCH, payload: term }
 }
@@ -32,8 +37,8 @@ export const createStudyAction = (deckID) => {
     return { type : CREATE_STUDY, payload: deckID }
 }
 
-export const nextReviewAction = () => {
-    return { type: NEXT_CARD, payload: {} };
+export const nextCardAction = (response) => {
+    return { type: NEXT_CARD, payload: response };
 }
 
 export const endStudyAction = () => {

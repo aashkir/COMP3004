@@ -12,54 +12,54 @@ class ProgressInfo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          showToast: false
+            showToast: false
         }
     }
-    
-      onPressLTM = () => {
-        let ltmCards = 10
+
+    onPressLTM = () => {
+        let ltmCards = this.props.memorized
         Toast.show({
             text: `you have ${ltmCards} cards in long term memory!`,
             buttonText: "Okay",
             buttonTextStyle: { color: "#008000" },
             buttonStyle: { backgroundColor: colors.greenright }
-          })
+        })
     }
 
-    onPressSTM = () => {
-        let stmCards = 5
+    onPressDue = () => {
+        let stmCards = this.props.due
         Toast.show({
-            text: `you have ${stmCards} cards in short term memory!`,
+            text: `you have ${stmCards} cards due!`,
             buttonText: "Okay",
             buttonTextStyle: { color: "#008000" },
             buttonStyle: { backgroundColor: colors.greenright }
-          })
+        })
     }
 
     onPressUnlearned = () => {
-        let unlearnedCards = 50
+        let unlearnedCards = this.props.count - this.props.memorized
         Toast.show({
-            text: `you have yet to see ${unlearnedCards} cards!`,
+            text: `you have not memorized ${unlearnedCards} cards!`,
             buttonText: "Okay",
             buttonTextStyle: { color: "#008000" },
             buttonStyle: { backgroundColor: colors.greenright }
-          })
+        })
     }
 
     render() {
         return (
             <View style={styles.row}>
-                <Button style={styles.button} transparent  onPress={this.onPressLTM}>
-                    <Icon active type="MaterialCommunityIcons" name="progress-check" style={[styles.icon_LTM, styles.icon]}/>
-                    <Text style={styles.text}>10</Text>
+                <Button style={styles.button} transparent onPress={this.onPressLTM}>
+                    <Icon active type="MaterialCommunityIcons" name="progress-check" style={[styles.icon_LTM, styles.icon]} />
+                    <Text style={styles.text}>{this.props.memorized}</Text>
                 </Button>
-                <Button style={styles.button} transparent onPress={this.onPressSTM}>
-                    <Icon active type="MaterialCommunityIcons" name="progress-clock" style={[styles.icon_STM, styles.icon]}/>
-                    <Text style={styles.text}>5</Text>
+                <Button style={styles.button} transparent onPress={this.onPressDue}>
+                    <Icon active type="MaterialCommunityIcons" name="progress-clock" style={[styles.icon_STM, styles.icon]} />
+                    <Text style={styles.text}>{this.props.due}</Text>
                 </Button>
                 <Button style={styles.button} transparent onPress={this.onPressUnlearned}>
-                    <Icon active type="MaterialCommunityIcons" name="progress-alert" style={[styles.icon_unlearned, styles.icon]}/>
-                    <Text style={styles.text}>50</Text>
+                    <Icon active type="MaterialCommunityIcons" name="progress-alert" style={[styles.icon_unlearned, styles.icon]} />
+                    <Text style={styles.text}>{this.props.count - this.props.memorized}</Text>
                 </Button>
             </View>
         )
@@ -67,34 +67,34 @@ class ProgressInfo extends Component {
 }
 
 const styles = StyleSheet.create({
-    row : {
+    row: {
         flexDirection: "row",
     },
-    button : {
-        backgroundColor : colors.white,
+    button: {
+        backgroundColor: colors.white,
     },
 
-    icon : {
+    icon: {
         //backgroundColor : colors.white,
         padding: 1,
     },
 
-    icon_unlearned : {
+    icon_unlearned: {
         color: colors.redwrong,
     },
 
-    icon_STM : {
+    icon_STM: {
         color: colors.yellowprogress,
     },
 
-    icon_LTM : {
+    icon_LTM: {
         color: colors.greenright,
     },
 
-    text : {
+    text: {
         //backgroundColor: colors.white,
-        paddingRight : 0,
-        paddingLeft  : 2,
+        paddingRight: 0,
+        paddingLeft: 2,
     }
 })
 

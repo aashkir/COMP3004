@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Footer, FooterTab, Button, Text } from 'native-base';
+import { Footer, FooterTab, Button, Text } from 'native-base'
 
-export default class MainFooter extends Component {
+import { connect } from "react-redux"
+import { searchAction} from "./../../actions/creators"
+
+class MainFooter extends Component {
 
   _goToHome = () => {
+    this.props.resetSearch()
     this.props.navigation.navigate('Home')
   }
 
@@ -33,3 +37,19 @@ export default class MainFooter extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+      search_term : state.search_term,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      resetSearch: () => {
+          dispatch(searchAction(""))
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainFooter)

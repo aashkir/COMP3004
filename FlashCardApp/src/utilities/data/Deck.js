@@ -1,28 +1,36 @@
 import md5 from "md5"
+import Card from "./Card"
 
 class Deck {
     constructor(title, subtitle) {
+        // should be stored
         this.title = title
         this.subtitle = subtitle
         this.cards = []
         this.lastReviewed = Date.now()
-        this.lastModified = Date.now() // transaction-id
-        this.id = md5(title + this.lastReviewed)
+        this.creationDate = Date.now()
+        this.id = md5(title + this.creationDate) // transaction-id
+        this.lastModified = Date.now()
         this.synced = false
     }
     // For loading a deck from storage
     setFromObject(ob) {
-        this.name = ob.name
-        this.cards = ob.cards
+        //this.title = ob.title
+        //this.subtitle = ob.subtitle
+
+        this.cards = ob.cards.map(card => {
+            return Card.fromObject(card)
+        })
+
         this.id = ob.id
         this.lastReviewed = ob.lastReviewed
-        this.lastModified = ob.lastModified
+        this.creationDate = ob.creationDate
     }
 
     static fromObject(ob) {
-        let d = new Deck(ob.title, ob.subtitle);
-        d.setFromObject(ob);
-        return d;
+        let d = new Deck(ob.title, ob.subtitle)
+        d.setFromObject(ob)
+        return d
     }
 
     addCard(card) {
@@ -37,6 +45,38 @@ class Deck {
     updateModification() {
         this.lastModified = Date.now()
     }
+
+    // days elapsed since deck was created, 1 day = 1 interval unit
+    getInterval() {
+        let now = new Date()
+        let old = new Date(this.creationDate)
+        let difference = now.getTime() - old.getTime()
+        return Math.ceil(difference / (1000 * 3600 * 24))
+    }
+
+    // you have x cards due
+    getDueCards() {
+        let interval = this.getInterval()
+        let count = this.cards.filter( card => {
+                        return (card.getInterval() <= interval && card.EF < 4)
+                    }).length
+        return count
+    }
+
+    // you are learning ... cards
+    getUnmemorizedCards() {
+        let count = this.cards.filter(card => {
+                        return (card.EF < 4)
+                    }).length
+        return count
+    }
+
+    // you have memorized ... cards
+    getMemorizedCards() {
+        return this.cards.length - this.getUnmemorizedCards()
+    }
+
+    
 }
 
 export default Deck
