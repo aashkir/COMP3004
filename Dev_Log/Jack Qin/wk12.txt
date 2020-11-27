@@ -1,0 +1,3 @@
+Work Done During Time
+- Finishing the UI for edit card functionality
+- Work on edit card implementation: finished
