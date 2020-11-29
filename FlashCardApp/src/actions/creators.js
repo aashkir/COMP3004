@@ -7,7 +7,8 @@ import {
     CREATE_STUDY,
     NEXT_CARD,
     END_STUDY,
-    UPDATE_DECK
+    UPDATE_DECK,
+    EDIT_CARD
 } from './types'
 
 import Card from './../utilities/data/Card'
@@ -47,4 +48,8 @@ export const endStudyAction = () => {
 
 export const updateDeckWithDeckAction = (deck) => {
     return { type: UPDATE_DECK, payload: deck };
+}
+
+export const editCardAction = (oldCard, newCard, deckID, cardID) => {
+    return { type : EDIT_CARD, payload: {oldCard: oldCard, newCard: newCard, deckID: deckID, cardID: cardID} }
 }

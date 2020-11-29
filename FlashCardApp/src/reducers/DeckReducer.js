@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD } from '../actions/types'
+import { ADD_DECK, ADD_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD, EDIT_CARD } from '../actions/types'
 
 import Deck from '../utilities/data/Deck'
 import { writeDecks } from './../utilities/storage/decks'
@@ -44,6 +44,10 @@ const reducer = (state = [], action) => {
             return updatedState
         case UPDATE_DECK:
             updatedState = updatedDeckWithDeck(state, action.payload)
+            saveDecks(updatedState)
+            return updatedState
+        case EDIT_CARD:
+            updatedState = editCard(state, action.payload)
             saveDecks(updatedState)
             return updatedState
     }
@@ -127,6 +131,22 @@ async function deleteDeck(deckID){
     }
 }
 
+function editCard(decks, payload){
+    console.log("In EDITCARD");
+    return decks.map((deck) => {
+        if(deck.id === payload.deckID){
+            deck.cards.map((card) => {
+                if(card.cardID === payload.cardID){
+                    card.front = payload.newCard.front;
+                    card.back = payload.newCard.back;
+                }
+                return card;
+            })
+        }
+        return deck;
+    })
+}
+
 export function uploadFireBase(deck){
     return async function uploadToFireBase(dispatch, getState){
         let uploadingDeck = cleanUpDeckForUpload(deck)
@@ -139,7 +159,7 @@ export function uploadFireBase(deck){
         if (await checkDeckExists(uploadingDeck.id)){
             deleteDeck(uploadingDeck.id)
             putDeck(uploadingDeck)
-        } 
+        }
         //deck doesn't exists on server, so add the new deck to server
         else {
             putDeck(uploadingDeck)
@@ -147,7 +167,7 @@ export function uploadFireBase(deck){
         uploadingDeck.synced = false
         dispatch(updateDeckWithDeckAction(uploadingDeck))
     }
-    
+
 }
 
 export function downloadFireBase(deckIdString){

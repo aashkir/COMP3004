@@ -27,8 +27,8 @@ class DeckScreen extends Component {
         this.props.navigation.navigate("New Card", {'deckID' : this.props.route.params.deckID})
     }
 
-    _viewCard = () => {
-        console.warn("View card not implemented.")
+    _viewCard = (cardID) => {
+        this.props.navigation.navigate("Card", {'card' : this._findCard(cardID)});
     }
 
     _study = () => {
@@ -45,7 +45,7 @@ class DeckScreen extends Component {
             return null
         }
         return this.props.cardResults.map(card => {
-            return <CardView card={card} key={card.cardID} onPress={this._viewCard} />
+            return <CardComponent card={card} key={card.cardID} onPress={() => {this._viewCard(card.cardID)}} />
         })
     }
 
@@ -53,10 +53,15 @@ class DeckScreen extends Component {
         return this.props.decks.find((deck) => {return (deck.id === this.props.route.params.deckID)});
     }
 
+    _findCard(cardID){
+        let deck = this.props.decks.find((deck) => {return (deck.id === this.props.route.params.deckID)});
+        let card = deck.cards.find((card) => {return card.cardID === cardID});
+        return card;
+    }
 
     render() {
         return (
-            
+
             <Container>
                 <SearchHeader title="Temp" onSearch={this._onSearch} canGoBack={this.props.navigation.canGoBack} goBack={this._goBack} />
                 <Content>
