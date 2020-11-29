@@ -9,12 +9,18 @@ import RecentDeck from './RecentDeck'
 import MainFooter from "../../components/MainFooter"
 
 import { connect } from "react-redux"
-import { searchAction} from "./../../../actions/creators"
+import { searchAction, deleteDeckAction} from "./../../../actions/creators"
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import colors from "../../styles/colors";
 import { uploadFireBase, downloadFireBase } from "./../../../reducers/DeckReducer"
 
 import DeckList from "./DeckList"
+
+import { Alert, Clipboard  } from "react-native"
+
+//Below import should be used but not supposed in Expo SDK
+//import Clipboard from '@react-native-community/clipboard'
+
 
 class HomeScreen extends Component {
     static displayName = "Home"
@@ -69,8 +75,8 @@ class HomeScreen extends Component {
         this.props.navigation.navigate("New Deck")
     }
 
-    _deleteDeck = (deckID) => {
-        console.warn("Delete deck not implemented.")
+    _deleteDeck = (deck) => {
+        this.props.deleteDeck(deck)
     }
 
     _onSearch = (title) => {
@@ -78,13 +84,26 @@ class HomeScreen extends Component {
     }
 
     _shareDeck = (deck) => {
-        console.warn("Share deck not implemented.")
-        //this.props.uploadDeck(uploadFireBase(deck))
+        this.props.uploadDeck(uploadFireBase(deck))
+        Alert.alert(
+            "Shareable ID",
+            "Use the following on the share page to add someone elses's deck: \n\n" + deck.id,
+            [
+              {
+                text: "Copy message",
+                onPress: () => this.copyToClipboard(deck),
+                style: "cancel"
+              },
+              { text: "Close"
+            }
+            ],
+            { cancelable: true }
+        );
     }
 
-    _getDeck = (deckId) => {
-        this.props.downloadDeckDeck(downloadFireBase(deckId))
-    }
+    copyToClipboard = (deck) => {
+        Clipboard.setString(deck.id.toString())
+    };
 
     _viewDeck = (id) => {
         this.props.navigation.navigate("View Deck", {deckID : id})
@@ -95,7 +114,7 @@ class HomeScreen extends Component {
             <Container>
                 <SearchHeader onSearch = {this._onSearch}/>
                 <Root>
-                    <Content>
+                    <Content padder>
                         {this._createRecentDeckView()}
                         {this._createDeckViews()}
                     </Content>
@@ -130,6 +149,9 @@ const mapDispatchToProps = dispatch => {
     return {
         searchDeck: (title) => {
             dispatch(searchAction(title))
+        },
+        deleteDeck: (deck) => {
+            dispatch(deleteDeckAction(deck))
         },
         uploadDeck: (uploadFireBase_Function) => {
             dispatch(uploadFireBase_Function)

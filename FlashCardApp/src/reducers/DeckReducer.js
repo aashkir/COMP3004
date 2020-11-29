@@ -1,5 +1,6 @@
-import { ADD_DECK, ADD_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD, EDIT_CARD } from '../actions/types'
+import { ADD_DECK, ADD_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD, EDIT_CARD, DELETE_DECK } from '../actions/types'
 
+import Card from './../utilities/data/Card'
 import Deck from '../utilities/data/Deck'
 import { writeDecks } from './../utilities/storage/decks'
 import { updateDeckWithDeckAction } from "../actions/creators"
@@ -50,8 +51,27 @@ const reducer = (state = [], action) => {
             updatedState = editCard(state, action.payload)
             saveDecks(updatedState)
             return updatedState
+         case DELETE_DECK:
+            updatedState = deleteDeckLocal(state, action.payload)
+            saveDecks(updatedState)
+            return updatedState
     }
     return updatedState
+}
+
+function deleteDeckLocal(decks, deckToDelete){
+    //force state change, cause redux only does shallow comparison 
+    let resultDeck = decks.slice(0, decks.length) 
+    
+    let found = false;
+    for (let i = 0; i < decks.length; i++){
+        if (decks[i].id === deckToDelete.id){
+            resultDeck.splice(i, 1)
+            found = true
+            break
+        }
+    }
+    return resultDeck
 }
 
 function deckArrayWithNewCard(decks, card) {
@@ -70,27 +90,32 @@ function saveDecks(state) {
 }
 
 function updatedDeckWithDeck(decks, deckToAdd){
+    let resultDeck = decks.slice(0, decks.length) 
     let found = false
-    for (let i = 0; i < decks.length; i++){
+    for (let i = 0; i < resultDeck.length; i++){
         //if local contains deck, replaced with new deck
-        if (decks[i].id = deckToAdd.id){
-            decks[i] = deckToAdd
+        if (resultDeck[i].id === deckToAdd.id){
+            resultDeck[i] = deckToAdd
             found = true
+            break
         }
     }
 
-    if (found){
-        decks.concat(deckToAdd)
+    if (found === false){
+        //console.log(deckToAdd)
+        resultDeck = resultDeck.concat(deckToAdd)
+        //console.log(resultDeck)
     }
 
-    return decks
+    return resultDeck
 }
 
 async function getDeck(deckId) {
     try {
         const res = await axios.get(baseAPIUrlSyncedDeck + deckId + apiEnd)
-        return res.data;
+        return res.data
     } catch (error) {
+        console.log("ERROR DETECTED")
         console.error(error)
     }
 }
@@ -123,7 +148,7 @@ function cleanUpDeckForUpload(deck){
     return deck
 }
 
-async function deleteDeck(deckID){
+async function deleteDeck(deckId){
     try {
         await axios.delete(baseAPIUrlSyncedDeck + deckId + apiEnd)
     } catch (error) {
@@ -151,9 +176,6 @@ export function uploadFireBase(deck){
     return async function uploadToFireBase(dispatch, getState){
         let uploadingDeck = cleanUpDeckForUpload(deck)
 
-        //testing value
-        uploadingDeck.id = '1'
-        //testing values end
 
         //check if deck exists on server
         if (await checkDeckExists(uploadingDeck.id)){
@@ -164,10 +186,28 @@ export function uploadFireBase(deck){
         else {
             putDeck(uploadingDeck)
         }
-        uploadingDeck.synced = false
+        uploadingDeck.synced = true
         dispatch(updateDeckWithDeckAction(uploadingDeck))
     }
 
+}
+
+function newDeckFromResponse(responseData){
+    let responseDataNewDeck = new Deck(responseData.title, responseData.subtitle)
+    responseDataNewDeck.creationDate = responseData.creationDate
+    responseDataNewDeck.id = md5(responseData.title + Date.now())
+    responseDataNewDeck.lastModified = responseData.lastModified
+    responseDataNewDeck.lastReviewed = responseData.lastReviewed
+    responseDataNewDeck.cards = []
+
+    for (let i = 0; i < responseData.cards.length; i++){
+        let newCard = new Card(responseData.cards[i].front, responseData.cards[i].back, responseDataNewDeck.id)
+        newCard.lastModified = responseData.cards[i].lastModified  
+        responseDataNewDeck.cards.push(newCard)
+
+    }
+
+    return responseDataNewDeck
 }
 
 export function downloadFireBase(deckIdString){
@@ -175,8 +215,8 @@ export function downloadFireBase(deckIdString){
 
         let responseData = await getDeck(deckIdString)
         if (responseData !== null){
-            responseData.id = md5(response.title + Date.now())
-            dispatch(updateDeckWithDeckAction(responseData))
+            let newDownloadedDeck = newDeckFromResponse(responseData)
+            dispatch(updateDeckWithDeckAction(newDownloadedDeck))
         } else {
             console.warn("deckId not found on Firebase")
         }

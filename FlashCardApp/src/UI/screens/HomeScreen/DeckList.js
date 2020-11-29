@@ -23,13 +23,8 @@ export default class DeckList extends Component {
         }
     };
 
-    deleteRow = (rowMap, rowKey, deck) => {
-        this.closeRow(rowMap, rowKey)
-        this.props.onDelete(deck.id)
-        //const newData = [...listData];
-        //const prevIndex = listData.findIndex(item => item.key === rowKey);
-        //newData.splice(prevIndex, 1);
-        //setListData(newData); delete action
+    deleteRow = (deck) => {
+        this.props.onDelete(deck)
     };
 
     onRowDidOpen = rowKey => {
@@ -63,7 +58,7 @@ export default class DeckList extends Component {
                 <Text>Share</Text>
             </Button>
 
-            <Button iconLeft style={styles.deleteButton} onPress={() => this.deleteRow(rowMap, data.item.id, data.item)}>
+            <Button iconLeft style={styles.deleteButton} onPress={() => this.deleteRow(data.item)}>
                 <Icon name='trash' />
                 <Text>Delete</Text>
             </Button>
