@@ -1,0 +1,5 @@
+Work Done During Time
+- Implemented Main Components of the app
+- Implemented react redux reducers and actions
+- designed Deck and Card classes
+- addcard and adddeck reimplemented

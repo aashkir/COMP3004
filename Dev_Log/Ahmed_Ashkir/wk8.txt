@@ -1,0 +1,5 @@
+wk8
+Work Done During Time
+- Discussing about what to use for project
+- Learning about git projects
+- Familiarlizing myself with react locally
