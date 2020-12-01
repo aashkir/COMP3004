@@ -28,8 +28,7 @@ class HomeScreen extends Component {
     _createRecentDeckView() {
         // create recent decks
         if (this.props.decks.length > 3) {
-            // not implemented, just return null for now
-            
+            // ni
             // sorting will be delegated at a higher level
             let mostRecentDecks = this.props.decks.slice(0, 4);
             return (
@@ -41,7 +40,7 @@ class HomeScreen extends Component {
                         <Col>
                             <Row>
                                 {/* Change for ShareDeckTesting */}
-                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._viewDeck(mostRecentDecks[2].id)}} />
+                                <RecentDeck deck={mostRecentDecks[0]} onPress={() => {this._viewDeck(mostRecentDecks[0].id)}} />
                             </Row>
                             <Row>
                                 <RecentDeck deck={mostRecentDecks[2]} onPress={() => {this._viewDeck(mostRecentDecks[2].id)}}/>

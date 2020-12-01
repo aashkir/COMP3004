@@ -1,15 +1,8 @@
-import React from 'react';
-import { AppLoading } from 'expo';
-import { Container, Text } from 'native-base';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import React from 'react'
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
+import { Ionicons } from '@expo/vector-icons'
 import Navigator from './utilities/Navigator'
-
-const Stack = createStackNavigator()
 
 import { createStore, applyMiddleware } from 'redux'
 import { reducer } from './reducers/index'
@@ -21,15 +14,15 @@ import { loadDataAction } from "./actions/creators"
 
 const store = createStore(reducer, applyMiddleware(thunk))
 
-// On application start, read saved state from disk.
+// On application start, read saved decks from disk.
 readDecks().then(decks => {
   console.log("loading data")
-  store.dispatch(loadDataAction(decks));
-});
+  store.dispatch(loadDataAction(decks))
+})
 
 export default class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isReady: false,
     }
@@ -41,18 +34,18 @@ export default class App extends React.Component {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     })
-    this.setState({ isReady: true });
+    this.setState({ isReady: true })
   }
 
   render() {
     if (!this.state.isReady) {
-      return <AppLoading />;
+      return <AppLoading />
     }
 
     return (
       <Provider store={store}>
         <Navigator/>
       </Provider>
-    );
+    )
   }
 }
