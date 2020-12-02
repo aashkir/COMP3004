@@ -1,7 +1,0 @@
-wk1_to_7
-Work Done During Time
-- Brainstorming ideas about project
-- Worked as a group on Figma presentation 
-- Wrote script for D1 presentations
-- Working on React-Native enviroment setting
-- Try to code with React-Native

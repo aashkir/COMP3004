@@ -1,2 +1,0 @@
-Work Done During Time
-- Work on Notification UI/functionality

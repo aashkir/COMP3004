@@ -1,7 +1,0 @@
-
-- Discussing about what to use for project
-- Learning Redux
-- Start coding add Deck
-- Start implementing add Deck UI
-- Start Edit Card UI Design
-

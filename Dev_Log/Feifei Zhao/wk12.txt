@@ -1,2 +1,0 @@
-- Finishing the UI for notification
-- Working on IOS notification
