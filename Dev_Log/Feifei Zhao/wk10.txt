@@ -1,0 +1,5 @@
+Wk10  
+Work Done During Time
+- Work on QuizScreen
+- Implementation QuizScreen UI
+- Implementation “easy”,"good","again" button

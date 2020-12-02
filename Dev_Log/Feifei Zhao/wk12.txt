@@ -1,1 +1,3 @@
-aaa 
+Wk12
+- Finishing the UI for notification
+- Working on IOS notification
