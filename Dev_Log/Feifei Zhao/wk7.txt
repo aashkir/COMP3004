@@ -1,0 +1,3 @@
+wk7
+- Try to code addDeck function
+- Learn how to design UI using react native
