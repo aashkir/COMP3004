@@ -1,0 +1,4 @@
+wk6
+- Looking for architecture
+- Continue to learn react native
+- Understand what is navigation in react native
