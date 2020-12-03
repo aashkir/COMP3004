@@ -1,0 +1,3 @@
+wk3
+- Determined to use react native as our application development framework
+- Start learning react native
