@@ -1,3 +1,4 @@
 Wk11
 -Study on push local notification
 - Work on Notification UI/functionality
+- Work on D3 documents during every week meeting time
