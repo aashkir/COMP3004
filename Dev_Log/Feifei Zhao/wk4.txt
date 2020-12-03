@@ -1,0 +1,3 @@
+wk4
+- Working on React-Native enviroment setting
+- Read books related to react native
