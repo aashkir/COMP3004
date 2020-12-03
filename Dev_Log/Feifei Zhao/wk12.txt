@@ -1,4 +1,4 @@
 Wk12
 - Finishing the UI for notification
 - Working on IOS notification
-- Finishing D3 presentation
+- Working on Oral Exam
