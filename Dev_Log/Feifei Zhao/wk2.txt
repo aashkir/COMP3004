@@ -1,0 +1,5 @@
+wk2
+- Start designing app 
+- Use figma to make app prototype
+- Start the meeting at 3pm every Friday
+- Wrote script for D1 presentations
