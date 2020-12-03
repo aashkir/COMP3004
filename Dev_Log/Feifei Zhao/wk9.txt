@@ -1,7 +1,7 @@
 
 wk9
 Work Done During Time
-- Worked to write script fo D3 presentation 
+- Worked to write script fo D2 presentation 
 - Worked on prototype demo with group
 - Research on react redux
 - Working on edit card UI
