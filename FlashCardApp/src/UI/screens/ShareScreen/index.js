@@ -29,6 +29,12 @@ class ShareScreen extends Component {
        return <DeckList decks={this.props.decks.filter(deck => deck.synced === true)} onPress = {this._viewDeck} onShare = {this._shareDeck} onDelete = {this._deleteDeck} style={{flex: 1}}/>
     }
 
+    // reset search state when going back.
+    _goBack = () => {
+        this._onSearch("")
+        this.props.navigation.goBack()
+    }
+    
     _onSearch = (title) => {
         this.props.searchDeck(title)
     }
@@ -90,7 +96,7 @@ class ShareScreen extends Component {
     render() {
         return (
             <Container>
-                <SearchHeader onSearch = {this._onSearch}/>
+                <SearchHeader onSearch = {this._onSearch} canGoBack={this.props.navigation.canGoBack} goBack={this._goBack}/>
                 <Root>
                     <Content padder >
                         <Grid>
