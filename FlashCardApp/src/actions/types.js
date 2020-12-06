@@ -1,5 +1,6 @@
 export const ADD_DECK = "ADD_DECK"
 export const ADD_CARD = "ADD_CARD"
+export const DELETE_CARD = "DELETE_CARD"
 export const REPLACE_CARD = "REPLACE_CARD"
 export const SEARCH = "SEARCH"
 export const LOAD_DATA = "LOAD_DATA"

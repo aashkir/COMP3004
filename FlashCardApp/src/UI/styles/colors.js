@@ -9,7 +9,11 @@ export default ( palette = {
     gray1: "#CDB4DB",
     tan: "#efd3d7",
     white: "#fff",
-    greenright: "#06d6a0",
+    // response color scale
     redwrong: "#ef476f",
+    orangered: "#f3722c",
+    orange: "#f4a261",
     yellowprogress: "#ffd166",
+    green: "#aacc00",
+    greenright: "#06d6a0",
 })

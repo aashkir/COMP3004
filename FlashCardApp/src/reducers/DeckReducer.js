@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD, EDIT_CARD, DELETE_DECK } from '../actions/types'
+import { ADD_DECK, ADD_CARD, DELETE_CARD, LOAD_DATA, UPDATE_DECK, REPLACE_CARD, EDIT_CARD, DELETE_DECK } from '../actions/types'
 
 import Card from './../utilities/data/Card'
 import Deck from '../utilities/data/Deck'
@@ -25,6 +25,50 @@ function deckArrayWithReplacedCard(decks, replacerCard) {
     })
 }
 
+// used for removing cards (note: ID's have to be identical)
+function deckArrayWithRemovedCard(decks, markedCard) {
+    let newDecks = decks.slice(0, decks.length) 
+    let markedDeck = null
+    for (let i = 0; i < newDecks.length; i++){
+        if (newDecks[i].id === markedCard.deckID){
+            markedDeck = newDecks.splice(i, 1)[0]
+            break
+        }
+    }
+
+    if (markedDeck) {
+        for (let i = 0; i < markedDeck.cards.length; i++) {
+            if (markedDeck.cards[i].cardID === markedCard.cardID) {
+                markedDeck.cards.splice(i, 1)
+                break
+            }
+        }
+        return newDecks.concat(markedDeck)
+    }
+
+    return decks
+    /*
+    return newDecks.map(deck => {
+        //console.log(deck.id, markedCard.deckID)
+        if (deck.id !== markedCard.deckID) {
+            console.log("Old deck:", deck)
+            let newCards = deck.cards.slice()
+            newCards = newCards.map(card => {
+                if (card.cardID !== markedCard.cardID) {
+                    return card
+                }
+            })
+            deck.cards = newCards
+            console.log("New deck:", deck)
+            return deck
+        }
+        
+        //return 
+    })
+    console.log(newDecks)
+    return newDecks*/
+}
+
 const reducer = (state = [], action) => {
     let updatedState = state
     switch (action.type) {
@@ -37,6 +81,10 @@ const reducer = (state = [], action) => {
             return updatedState
         case ADD_CARD:
             updatedState = deckArrayWithNewCard(state, action.payload)
+            saveDecks(updatedState)
+            return updatedState
+        case DELETE_CARD:
+            updatedState = deckArrayWithRemovedCard(state, action.payload)
             saveDecks(updatedState)
             return updatedState
         case REPLACE_CARD:

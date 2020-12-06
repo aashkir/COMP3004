@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Container, Content, Form, Label, Item, Input, Button, Text } from "native-base"
 import { StyleSheet } from 'react-native'
 import TitleHeader from "./../../components/TitleHeader"
-
+import MainFooter from "./../../components/MainFooter"
 import { connect } from 'react-redux'
 import { editCardAction } from "./../../../actions/creators"
 
@@ -51,6 +51,7 @@ class EditCardScreen extends Component{
                         <Text>Save</Text>
                     </Button>
                 </Content>
+                <MainFooter navigation={this.props.navigation}/>
             </Container>
         )
     }

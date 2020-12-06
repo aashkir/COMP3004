@@ -39,5 +39,11 @@ export const writeDecks = (decks) => {
     return write(DECK_KEY, decks)
 }
 
+export const tempClear = async() => {
+    console.log('clearing')
+    AsyncStorage.clear();
+}
+
 // for debugging
-const mockData = writeDecks(MockDecks);
+tempClear()
+//const mockData = writeDecks(MockDecks);

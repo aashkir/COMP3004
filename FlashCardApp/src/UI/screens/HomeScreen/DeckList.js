@@ -33,23 +33,8 @@ export default class DeckList extends Component {
 
     renderItem = data => (
         <Deck deck={data.item} count={data.item.cards.length} key={data.item.id} onPress={() => this.props.onPress(data.item.id)} />
-        /*
-        <TouchableHighlight
-            onPress={() => console.log('You touched me')}
-            style={styles.rowFront}
-            underlayColor={'#AAA'}
-            //this._viewDeck(data.item.id)
-        >
-
-            <Deck deck={data.item} count={data.item.cards.length} key={data.item.id} onPress={() => {console.log('You touched me')}} />
-        </TouchableHighlight>*/
     )
 
-    /*
-            <View>
-                <Text>I am {data.item.text} in a SwipeListView</Text>
-            </View>
-            */
     renderHiddenItem = (data, rowMap) => (
 
         <View style={styles.rowBack}>
@@ -63,26 +48,6 @@ export default class DeckList extends Component {
                 <Text>Delete</Text>
             </Button>
         </View>
-        /*
-        <View style={styles.rowBack}>
-            <Button iconLeft style={styles.shareButton}>
-                <Icon name='share' />
-                <Text>Share</Text>
-            </Button>
-            <TouchableOpacity
-                style={[styles.backRightBtn, styles.backRightBtnLeft]}
-                
-                onPress={() => {console.log(data.item); this.closeRow(rowMap, data.item.id)}}
-            >
-                <Text style={styles.backTextWhite}>Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={[styles.backRightBtn, styles.backRightBtnRight]}
-                onPress={() => this.deleteRow(rowMap, data.item.id)}
-            >
-                <Text style={styles.backTextWhite}>Delete</Text>
-            </TouchableOpacity>
-        </View>*/
     )
 
     render() {

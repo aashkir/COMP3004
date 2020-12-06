@@ -57,7 +57,9 @@ class Deck {
     // you have x cards due
     getDueCards() {
         let interval = this.getInterval()
+        //console.log(this.id, this.title)
         let count = this.cards.filter( card => {
+                        //console.log("cardName: ", card.front, "cardID:", card.cardID)
                         return (card.getInterval() <= interval && card.EF < 4)
                     }).length
         return count

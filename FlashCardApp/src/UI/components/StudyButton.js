@@ -18,7 +18,7 @@ const StudyButton = (props) => (
 
 const styles = StyleSheet.create({
   fab: {
-    backgroundColor: colors.green,
+    backgroundColor: colors.greenright,
     bottom: 20,                             
     left: 10,
     borderRadius: 30,

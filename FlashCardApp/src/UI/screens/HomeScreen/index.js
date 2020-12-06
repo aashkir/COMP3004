@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native"
-import { Container, Content, H1, Root, } from "native-base"
+import { Container, Content, H1, Root, Card, Body, Icon, Text } from "native-base"
 
 import SearchHeader from './../../components/SearchHeader'
 import AddButton from './../../components/AddButton'
@@ -26,6 +26,12 @@ class HomeScreen extends Component {
     static displayName = "Home"
 
     _createRecentDeckView() {
+        if (!this.props.decks || this.props.decks.length === 0) {
+            return <Body>
+                        <Icon name="sad-tear" type="FontAwesome5"/>
+                        <Text>You have no decks...</Text>
+                    </Body>
+        }
         // create recent decks
         if (this.props.decks.length > 3) {
             // ni
@@ -105,6 +111,7 @@ class HomeScreen extends Component {
     };
 
     _viewDeck = (id) => {
+        console.log(id)
         this.props.navigation.navigate("View Deck", {deckID : id})
     }
 

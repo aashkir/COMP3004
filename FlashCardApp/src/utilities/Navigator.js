@@ -26,6 +26,7 @@ function Navigator() {
                 <Stack.Screen name="New Card" component={NewCardScreen} />
                 <Stack.Screen name="Study" component={StudyScreen} />
                 <Stack.Screen name="Share" component={ShareScreen} />
+                <Stack.Screen name="Stats" component={StatsScreen} />
                 <Stack.Screen name="Card" component={CardScreen} />
                 <Stack.Screen name="Edit Card" component={EditCardScreen} />
             </Stack.Navigator>

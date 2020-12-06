@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button, Container, Header, Content , Text, Divider, View, H1} from "native-base"
+import { Button, Container, Header, Content , Text, Divider, View, H1, Body, Icon} from "native-base"
 
 import SearchHeader from './../../components/SearchHeader'
 import AddButton from "./../../components/AddButton"
@@ -41,11 +41,13 @@ class DeckScreen extends Component {
     }
 
     _createCardViews() {
-        if (!this.props.cardResults) {
-            return null
+        if (this.props.cardResults.length === 0) {
+            return <Body>
+                        <Text>No cards available.</Text>
+                    </Body>
         }
         return this.props.cardResults.map(card => {
-            return <CardComponent card={card} key={card.cardID} onPress={() => {this._viewCard(card.cardID)}} />
+            return <CardView card={card} key={card.cardID} onPress={() => {this._viewCard(card.cardID)}} />
         })
     }
 
@@ -61,7 +63,6 @@ class DeckScreen extends Component {
 
     render() {
         return (
-
             <Container>
                 <SearchHeader title="Temp" onSearch={this._onSearch} canGoBack={this.props.navigation.canGoBack} goBack={this._goBack} />
                 <Content>
@@ -78,8 +79,10 @@ class DeckScreen extends Component {
 }
 
 const getFilteredCards = (decks, term, deckID) => {
-    let deck = decks.find((deck) => {return deck.deckID === deckID})
+    let deck = decks.find((deck) => {return deck.id === deckID})
+    //console.log("Deck", deck)
     if (term === "" || term === undefined) {
+        //console.log(deck.cards)
         return deck.cards
     }
     console.log(deck.cards.filter(card => card.front.includes(term)));
@@ -90,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         decks : state.decks,
         search_term : state.search_term,
-        cardResults : getFilteredCards(state.decks, state.search_term, ownProps.deckID)
+        cardResults : getFilteredCards(state.decks, state.search_term, ownProps.route.params.deckID)
     }
 }
 

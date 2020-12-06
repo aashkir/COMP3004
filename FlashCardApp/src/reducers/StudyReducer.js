@@ -51,6 +51,8 @@ function nextCard(state, response) {
     let lastStudied = state.studyQueue.dequeue()
     lastStudied.updateEF(response)
     console.log("new EF:", lastStudied.EF)
+    // put failed cards back in the study queue
+    if (lastStudied.n === 1) state.studyQueue.enqueue(lastStudied)
     return setStudyState(
         state.deckID,
         state.studyQueue,
